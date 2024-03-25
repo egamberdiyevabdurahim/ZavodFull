@@ -116,7 +116,7 @@ class Userdetail(APIView):
 
     def delete(self, request, id):
         user = User.objects.filter(id=id).first()
-        if user.is_admin==True or user.is_direktor==True:
+        if request.user.is_admin==True or request.user.is_direktor==True:
             user.delete()
             return Response(status=204)
         if user.is_admin==True:
@@ -315,7 +315,7 @@ class XodimDetail(APIView):
         user = request.user
         xodim = Xodim.objects.filter(id=id).first()
         userr = User.objects.filter(xodim_user=xodim).first() 
-        if user.is_admin==True or user.is_direktor==True:
+        if request.user.is_admin==True or request.user.is_direktor==True:
             userr.delete()
             xodim.delete()
             return Response(status=204)

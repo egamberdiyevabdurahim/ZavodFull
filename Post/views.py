@@ -330,7 +330,7 @@ class BulimDetail(APIView):
     def delete(self, request, id):
         user = request.user
         bulim = Bulim.objects.get(id=id)
-        if user.is_admin==True or user.is_direktor==True:
+        if request.user.is_admin==True or request.user.is_direktor==True:
             bulim.delete()
             return Response(status=204)
         return Response({'message':'Bulimni Siz Uchirolmaysiz, Uchirish Uchun Direktor Yoki Adminga Murojat Qiling'})
@@ -412,8 +412,10 @@ class MahsulotDetail(APIView):
     
     def delete(self, request, id):
         mahsulot = Mahsulot.objects.get(id=id)
-        mahsulot.delete()
-        return Response(status=204)
+        if request.user.is_admin==True or request.user.is_direktor==True:
+            mahsulot.delete()
+            return Response(status=204)
+        return Response({'message':'Mahsulotni Siz Uchirolmaysiz, Uchirish Uchun Direktor Yoki Adminga Murojat Qiling'})
 
 
 # class XatolarList(APIView):

@@ -60,6 +60,10 @@ class UserSer(serializers.ModelSerializer):
         instance.is_direktor = validated_data.get('is_direktor', instance.is_direktor)
         instance.save()
         return instance
+    
+    def validate_username(self, value):
+        value = value.lower()
+        return value
 
 
 class XodimSer(serializers.ModelSerializer):
